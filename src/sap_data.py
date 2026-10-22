@@ -59,3 +59,40 @@ def _tidy(df: pd.DataFrame) -> pd.DataFrame:
     if "Supplier" in df:
         df["Supplier"] = df["Supplier"].astype("string").str.strip()
     return df
+
+
+def load_scope() -> pd.DataFrame:
+    """In-scope PO items (US00, category F, not deleted, reporting window), built by eda/scope_eda.ipynb."""
+    return pd.read_parquet(PROC / "po_scope.parquet")
+
+
+# Material codes are created per student (CHLO1072, CHLK1003T, ...), so one product has
+# hundreds of codes. Product family is derived from Short Text, then the material prefix.
+FAMILY_TEXT = [
+    ("Chain lock", r"chain|lokk"),
+    ("Water bottle cage", r"cage"),
+    ("Water bottle", r"bottle"),
+    ("Socket head bolt", r"bolt"),
+    ("T-shirt", r"shirt"),
+    ("Spelt flour", r"nköly|onkoly|liszt|búza|buza"),
+    ("Touring bike", r"touring bike"),
+    ("Off-road handle bar", r"handle ?bar"),
+]
+FAMILY_PREFIX = {"CH": "Chain lock", "BOTL": "Water bottle", "BOLT": "Socket head bolt",
+                 "SH": "T-shirt", "TK": "Spelt flour", "CA": "Water bottle cage"}
+FAMILY_CATEGORY = {
+    "Chain lock": "Accessories", "Water bottle": "Accessories",
+    "Water bottle cage": "Accessories", "T-shirt": "Accessories",
+    "Socket head bolt": "Components", "Off-road handle bar": "Components",
+    "Touring bike": "Finished bikes", "Spelt flour": "Non-bike (exercise item)",
+}
+
+
+def product_family(df: pd.DataFrame) -> pd.Series:
+    text = df["Short Text"].fillna("").str.lower()
+    fam = pd.Series("Other", index=df.index)
+    for name, pattern in reversed(FAMILY_TEXT):
+        fam = fam.mask(text.str.contains(pattern), name)
+    for prefix, name in FAMILY_PREFIX.items():
+        fam = fam.mask((fam == "Other") & df["Material"].fillna("").str.startswith(prefix), name)
+    return fam

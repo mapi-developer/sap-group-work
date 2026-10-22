@@ -7,3 +7,31 @@ Questions to analyse:
 - Geography (plant-supplier link): For each US receiving plant, what share of its net PO value comes from suppliers in each country/region, and does any plant depend on a single supplier region?
 - Time (price development): How has the average unit price of the five highest-value materials changed month by month over the reporting period (fixed-base and chain indices)?
 - Additional variable - material (sourcing risk): What proportion of net PO value is spent on single-sourced materials (only one supplier) versus multi-sourced materials?
+
+## Project structure
+
+```
+resources/              raw SE16N exports (never edit)
+data/processed/         parquet cache + po_scope.parquet (gitignored, rebuilt by the notebooks)
+reports/figures/        PNG charts saved by the analysis notebooks, for the Word report
+src/
+  sap_data.py           paths, scope constants, cached table loaders, product-family mapping
+  charts.py             shared matplotlib style + save()
+  eda/                  1. exploratory data analysis, run first
+    ekko_eda.ipynb      PO headers
+    ekpo_eda.ipynb      PO items
+    lfa1_eda.ipynb      supplier master
+    ekbe_eda.ipynb      PO history (not used for the questions)
+    scope_eda.ipynb     join + US scope -> data/processed/po_scope.parquet
+  analysis/             2. one notebook per question above
+    q1_supplier_concentration.ipynb
+    q2_geography.ipynb
+    q3_monthly_trend.ipynb
+    q4_material_group.ipynb
+    q5_order_pattern.ipynb
+    q6_plant_supplier_region.ipynb
+    q7_price_development.ipynb
+    q8_single_sourcing.ipynb
+```
+
+Run `src/eda/scope_eda.ipynb` once before the analysis notebooks (it creates `po_scope.parquet`).
