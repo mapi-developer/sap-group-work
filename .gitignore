@@ -1,0 +1,7 @@
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+.DS_Store
+
+# parquet cache and derived tables, rebuilt from resources/ by src/sap_data.py
+data/processed/

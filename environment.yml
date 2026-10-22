@@ -2,13 +2,20 @@ name: sap-analysis
 channels: [conda-forge]
 dependencies:
   - python=3.12
-  - pandas
+  # data
+  - pandas>=2.2
   - numpy
-  - openpyxl
+  - scipy
+  - openpyxl        # read SE16N .xlsx exports
+  - pyarrow         # parquet cache in data/processed/
+  # charts
   - matplotlib
   - seaborn
   - plotly
+  - python-kaleido  # static PNG/SVG export of plotly figures for the report
+  # notebooks
   - jupyterlab
   - ipykernel
+  - nbstripout      # strip notebook outputs on commit (`nbstripout --install`)
+  # report
   - python-docx
-  - scipy
