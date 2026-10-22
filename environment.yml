@@ -1,0 +1,14 @@
+name: sap-analysis
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - pandas
+  - numpy
+  - openpyxl
+  - matplotlib
+  - seaborn
+  - plotly
+  - jupyterlab
+  - ipykernel
+  - python-docx
+  - scipy
