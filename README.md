@@ -106,10 +106,13 @@ bikes. Harmonising material numbers would make sourcing and price comparison pos
 ```
 resources/            raw SE16N exports (never edit)
 data/processed/       parquet cache + po_scope.parquet (gitignored)
-reports/figures/      charts used above and in the Word report
+reports/
+  figures/            charts used above and in the Word report
+  final_report.md     report that contains summary of analysis and all interpritations
 src/
   sap_data.py         paths, scope constants, loaders, product-family mapping
   charts.py           shared matplotlib style + save()
+  build_report.py     converting python analysis to structured .docx report 
   eda/                1. EDA: ekko, ekpo, lfa1, ekbe, scope (run scope_eda first)
   analysis/           2. q1 … q8, one notebook per question
 ```

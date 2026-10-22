@@ -1,4 +1,3 @@
-"""Matplotlib style and figure export shared by the analysis notebooks."""
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter, PercentFormatter
 

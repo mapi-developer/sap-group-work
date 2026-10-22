@@ -1,10 +1,3 @@
-"""Build reports/final_report.docx from reports/final_report.md.
-
-Supports the Markdown subset used in the report: headings, paragraphs with **bold** / *italic* /
-`code`, tables, bullet and numbered lists, code blocks, images and the mermaid workflow (drawn as a PNG).
-
-    python src/build_report.py
-"""
 import re
 from pathlib import Path
 
